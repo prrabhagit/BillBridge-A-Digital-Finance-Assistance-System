@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: billbridge-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/billbridge}
+    username: ${DB_USER:billbridge}
+    password: ${DB_PASSWORD:billbridge}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+  data:
+    web:
+      pageable:
+        max-page-size: 100
+        default-page-size: 20
+
+server:
+  port: 8080
+  error:
+    include-message: never
+    include-stacktrace: never
+    include-binding-errors: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+billbridge:
+  jwt:
+    secret: ${JWT_SECRET:}            # required, >= 32 bytes. App refuses to start without it.
+    access-ttl: 15m
+    refresh-ttl: 14d
+    issuer: billbridge
+  auth:
+    require-email-verification: ${REQUIRE_EMAIL_VERIFICATION:true}
+    max-failed-attempts: 5
+    lock-duration: 15m
+    email-token-ttl: 24h
+  rate-limit:
+    auth-per-minute: 15
+  storage:
+    local-root: ${STORAGE_LOCAL_ROOT:./data/documents}
+  identity:
+    hmac-key: ${IDENTITY_HMAC_KEY:}   # required, >= 32 bytes. Used to hash ID numbers; never store the key with the DB.
+  bootstrap:
+    admin-email: ${BOOTSTRAP_ADMIN_EMAIL:}
+    admin-password: ${BOOTSTRAP_ADMIN_PASSWORD:}
+    admin-country: ${BOOTSTRAP_ADMIN_COUNTRY:NP}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173}

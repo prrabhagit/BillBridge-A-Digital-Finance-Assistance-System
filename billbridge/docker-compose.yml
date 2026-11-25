@@ -1,0 +1,16 @@
+# Stage 2: database only. Redis, MinIO, MailHog and the app containers are added in the stages that need them.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: billbridge
+      POSTGRES_USER: billbridge
+      POSTGRES_PASSWORD: billbridge
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U billbridge"]
+      interval: 5s
+      retries: 10
+volumes:
+  pgdata:

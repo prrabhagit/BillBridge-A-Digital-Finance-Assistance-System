@@ -1,0 +1,7 @@
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+server:
+  forward-headers-strategy: native   # only when running behind a trusted reverse proxy
