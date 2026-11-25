@@ -1,4 +1,4 @@
-# Stage 2: database only. Redis, MinIO, MailHog and the app containers are added in the stages that need them.
+#database only. Redis, MinIO, MailHog and the app containers are added in the stages that need them.
 services:
   postgres:
     image: postgres:16-alpine
