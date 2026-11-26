@@ -1,0 +1,22 @@
+package com.billbridge.controller;
+
+import com.billbridge.dto.AuthResponse;
+import com.billbridge.dto.LoginRequest;
+import com.billbridge.dto.MessageResponse;
+import com.billbridge.dto.RefreshRequest;
+import com.billbridge.dto.RegisterRequest;
+import com.billbridge.dto.UserResponse;
+import com.billbridge.dto.VerifyEmailRequest;
+import com.billbridge.service.AuthService;
+import com.billbridge.service.EmailVerificationService;
+import com.billbridge.util.ClientInfo;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
