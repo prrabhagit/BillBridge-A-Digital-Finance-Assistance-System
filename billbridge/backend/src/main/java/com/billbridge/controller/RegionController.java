@@ -20,3 +20,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+@RestController
+@RequestMapping("/api/v1")
+@RequiredArgsConstructor
+@Tag(name = "Countries and regions")
+public class RegionController {
+
+    private final RegionService regionService;
+
+    /** Public: powers the country picker (and shows which currency each country uses). */
+    @GetMapping("/countries")
+    public List<CountryResponse> countries() {
+        return regionService.listCountries();
+    }
+
+    /** Public: regions the user can choose from for their country, e.g. ?country=NP */
+    @GetMapping("/regions")
+    public List<RegionResponse> regions(@RequestParam("country") String country) {
+        return regionService.listRegions(country);
+    }
+
+    /** Admin-only (enforced in SecurityConfig for /admin/**): add regions for any country. */
+    @PostMapping("/admin/regions")
+    @ResponseStatus(HttpStatus.CREATED)
+    public RegionResponse createRegion(@AuthenticationPrincipal AuthenticatedUser admin,
+                                       @Valid @RequestBody CreateRegionRequest request, HttpServletRequest http) {
+        return regionService.create(admin.id(), request, ClientInfo.from(http));
+    }
+}
